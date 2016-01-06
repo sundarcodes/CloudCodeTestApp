@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "CloudCodeTestApp": {
+      "applicationId": "vE2dZy4kD31UD8JyouPc7ahRmsadd84AnX9SuSFN"
+    },
+    "_default": {
+      "link": "CloudCodeTestApp"
+    }
+  }
+}

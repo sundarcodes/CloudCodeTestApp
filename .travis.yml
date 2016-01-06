@@ -1,0 +1,10 @@
+language: node_js
+install:
+- curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+before_script:
+- /bin/echo "${ACCOUNT_KEY}" | /usr/local/bin/parse configure accountkey -d
+script:
+- /usr/local/bin/parse deploy -f
+env:
+  global:
+   secure: 9fzwTVkigAapnldeetoTWdHqYdBDS0FfJgGuM6U2 
