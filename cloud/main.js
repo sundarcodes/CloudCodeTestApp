@@ -27,9 +27,10 @@ Parse.Cloud.define("sendTestMail", function(request,response) {
 
 Parse.Cloud.afterSave("Student", function(request) {
   var user = new Parse.User();
-  console.log(request);
+  console.log("Request is "+ request);
+  console.log("Request object is "+ request.object);
   var parentEmail = request.object.parentEmail;
-  console.log(parentEmail);
+  console.log("Parent Email is " + parentEmail);
   user.set("username", parentEmail );
   var randomPassword = generateRandomPassword();
   user.set("password", randomPassword);
