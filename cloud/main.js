@@ -27,7 +27,8 @@ Parse.Cloud.define("sendTestMail", function(request,response) {
 
 Parse.Cloud.afterSave("Student", function(request) {
   var user = new Parse.User();
-  var parentEmail = request.object.get("Student").parentEmail;
+  console.log(request);
+  var parentEmail = request.object.parentEmail;
   console.log(parentEmail);
   user.set("username", parentEmail );
   var randomPassword = generateRandomPassword();
@@ -38,6 +39,7 @@ Parse.Cloud.afterSave("Student", function(request) {
     success: function(user) {
       // Hooray! Let them use the app now.
       // Send them a email
+      console.log("User successfully created");
       var emailBody = "Dear Parent,\n Congratulations. You have successfully registered for the skoolApp. Your username is "+parentEmail+" and password is "+randomPassword;
       sendMail(parentEmail,"yourFriend@skoopApp.com","Successful Registration",emailBody);
     },
