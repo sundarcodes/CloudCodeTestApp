@@ -3,8 +3,11 @@
     "CloudCodeTestApp": {
       "applicationId": "vE2dZy4kD31UD8JyouPc7ahRmsadd84AnX9SuSFN"
     },
+    "SchoolForum": {
+      "applicationId": "OXJqhw8TXb4dgsQXw3uTo3IxYGdL1pj0qjV0g0vW"
+    },
     "_default": {
-      "link": "CloudCodeTestApp"
+      "link": "SchoolForum"
     }
   }
 }
