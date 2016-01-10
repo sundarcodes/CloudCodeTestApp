@@ -29,16 +29,17 @@ Parse.Cloud.afterSave("Student", function(request) {
   var user = new Parse.User();
   var parentEmail = request.object.get("parentEmail");
   user.set("username", parentEmail );
-  var randomPassword = generateRandomPassword();
+  var randomPassword = generateRandomPassword(8);
   user.set("password", randomPassword);
   // user.set("email", "email@example.com");
-  Parse.Cloud.useMasterKey();
-  user.signUp(, {
+  // Parse.Cloud.useMasterKey();
+  // Create a user for this student's parent for them to access the App
+  user.signUp(null, {
     success: function(user) {
       // Hooray! Let them use the app now.
       // Send them a email
       console.log("User successfully created");
-      var emailBody = "Dear Parent,\n Congratulations. You have successfully registered for the skoolApp. Your username is "+parentEmail+" and password is "+randomPassword;
+      var emailBody = "Dear Parent,\n Congratulations. You have successfully registered for the skoolApp. Your username is "+parentEmail+" and password is "+randomPassword + "\nCheers,\nSchool App Team";
       sendMail(parentEmail,"yourFriend@skoopApp.com","Successful Registration",emailBody);
     },
     error: function(user, error) {
@@ -49,8 +50,49 @@ Parse.Cloud.afterSave("Student", function(request) {
 
 });
 
-generateRandomPassword = function(){
-  return "password";
+
+Parse.Cloud.afterDelete("Student", function(request) {
+  console.log("After deleting a student");
+  console.log(request.object);
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query(Parse.User);
+  console.log("After calling parse query");
+  console.log(request.object.get("parentEmail"));
+  query.equalTo("username",request.object.get("parentEmail"));
+  query.first({
+    success: function(user){
+      console.log("Got the user object");
+      console.log(user);
+      user.destroy({useMasterKey: true},{
+        success: function(user){
+          console.log("User destroyed");
+        },
+        error: function(user,error){
+          console.log("User cannot be destroyed");
+          console.log(user);
+          console.log(error);
+        }
+      });
+    },
+    error: function(user,error){
+      console.log("Unable to fetch user object");
+      console.log(user);
+      console.log(error);
+    }
+  });
+
+
+});
+
+
+generateRandomPassword = function(length){
+    var chars = "abcdefghijklmnopqrstuvwxyz*@&ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
 }
 
 sendMail = function(toUser,fromUser,emailSubject,emailBody) {
