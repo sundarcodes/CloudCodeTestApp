@@ -40,7 +40,7 @@ Parse.Cloud.afterSave("Student", function(request) {
       // Send them a email
       console.log("User successfully created");
       var emailBody = "Dear Parent,\n Congratulations. You have successfully registered for the skoolApp. Your username is "+parentEmail+" and password is "+randomPassword + "\nCheers,\nSchool App Team";
-      sendMail(parentEmail,"yourFriend@skoopApp.com","Successful Registration",emailBody);
+      //sendMail(parentEmail,"yourFriend@skoopApp.com","Successful Registration",emailBody);
     },
     error: function(user, error) {
       // Show the error message somewhere and let the user try again.
