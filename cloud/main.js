@@ -51,6 +51,28 @@ Parse.Cloud.afterSave("Student", function(request) {
 });
 
 
+Parse.Cloud.afterSave("Notifications", function(request) {
+  var channelsToSend = request.object.get("targetAudience");
+  var shortMessage = request.object.get("shortMessage");
+
+  Parse.Push.send({
+    channels: channelsToSend,
+    data: {
+      alert: shortMessage
+    }
+    }, {
+    success: function() {
+      // Push was successful
+      console.log("Push was successful");
+    },
+    error: function(error) {
+      // Handle error
+      console.log("Push failed with error");
+      console.log(error);
+    }
+  });
+});
+
 Parse.Cloud.afterDelete("Student", function(request) {
   console.log("After deleting a student");
   console.log(request.object);
